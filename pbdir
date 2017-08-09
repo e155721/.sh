@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo `pwd` > ~/.d1
+
+cat ~/.d1 | tr -d '\n' > ~/.d2
+
+pbcopy < ~/.d2
+
+cd ~/
+rm .d1 .d2

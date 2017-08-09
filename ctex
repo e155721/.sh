@@ -1,0 +1,33 @@
+#!/bin/zsh
+
+texName=$1
+t=$#
+exitSuccessful=0
+
+if [ $t -eq 0 ]
+then
+    texName=(`ls *.tex`)
+    t=${#texName[*]}
+
+    if [ $t -ne 1 ]
+    then
+        echo "tex file is not one."
+        exit
+    fi
+fi
+
+tmp1=`echo $texName | rev`
+tmp2=`echo $tmp1 | sed -e 's/xet//'`
+tmp3=`echo $tmp2 | sed -e 's/\.//'`
+texName=`echo $tmp3 | rev`
+
+platex $texName.tex > tex.log 2>&1
+exit=$?
+dvipdfmx $texName.dvi >> tex.log 2>&1
+
+if [ $exit -eq $exitSuccessful ]
+then
+    open $texName.pdf
+else
+    cat tex.log
+fi

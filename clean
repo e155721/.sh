@@ -1,0 +1,10 @@
+#!/bin/sh
+
+file=*~
+sfile=.*~
+
+rm $file &> ~/.shell_errors ||
+    rm $sfile &> ~/.shell_errors ||
+    echo "This directory is clean!"
+
+rm ~/.shell_errors
