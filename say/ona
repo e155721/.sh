@@ -1,1 +1,3 @@
-onna
+#!/bin/sh
+
+say onna!
