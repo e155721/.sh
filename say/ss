@@ -1,0 +1,11 @@
+#!/bin/sh
+
+array=($@)
+max=${#array[*]}
+i=0
+
+while [ $i -lt $max ]
+do
+    ${array[$i]}
+    i=$((i+1))
+done

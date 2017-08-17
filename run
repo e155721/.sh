@@ -1,0 +1,8 @@
+#!/bin/sh
+
+i=0
+while [ $i -ne 5 ]
+do
+    time $1 $2
+    i=$((i+1))
+done

@@ -1,0 +1,40 @@
+#!/bin/zsh
+
+main=$1
+ext="jpg"
+http="http"
+H='H'
+
+if [ $# -eq 0 ]
+then
+    echo "Error"
+    exit
+elif [ 2 -le $# ]
+then
+    ext=$2
+fi
+
+wget $main
+main=`echo $main | rev`
+main=`echo $main | sed -e 's/\//H/'`
+main=`echo $main | tr 'H' '\n'`
+main=`echo $main | head -n1`
+main=`echo $main | rev`
+
+tmp=`cat $main | sed -e s/$http/$H$http/g`
+tmp=`echo $tmp | sed -e s/$ext/$ext$H/g`
+tmp=`echo $tmp | tr 'H' '\n'`
+tmp=(`echo $tmp | grep ^http | grep jpg$`)
+
+i=1
+f="/"
+t=${#tmp[*]}
+while [ $i -le $t ]
+do
+    echo $i$f$t
+    wget $tmp[$i]
+    sleep 3s
+    i=$((i+1))
+done
+
+rm $main *.[0-9]

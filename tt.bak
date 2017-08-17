@@ -1,0 +1,18 @@
+#!/bin/sh
+
+main=$1
+
+wget $main
+main=`echo $main | rev`
+main=`echo $main | sed -e 's/\//H/'`
+main=`echo $main | tr 'H' '\n'`
+main=`echo $main | head -n1`
+main=`echo $main | rev`
+
+sed -e s/http/Hhttp/g $main > tmp1.txt
+sed -e 's/jpg/jpgH/g' tmp1.txt > tmp2.txt
+cat tmp2.txt | tr 'H' '\n' > tmp3.txt
+cat tmp3.txt | grep jpg > final.txt
+
+wget -i final.txt
+rm $main *.txt *.[0-9]
