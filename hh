@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/zsh
 
-alias getBranch="git branch | grep \* | tr '*' ' '"
+alias getBranch="git branch | grep \* | tr -d '* '"
 dirs=(.sh .zsh .emacs.d)
 
 for d in $dirs
@@ -10,6 +10,6 @@ do
     if [ -n "$check" ]
     then
         branch=`getBranch`
-        git pull origin $branch
+        git pull origin "$branch"
     fi
 done
