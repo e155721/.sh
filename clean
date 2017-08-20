@@ -1,10 +1,10 @@
 #!/bin/sh
 
-file=*~
-sfile=.*~
+file='*~'
+sfile='.*~'
+error=~/'.shell_errors'
 
-rm $file &> ~/.shell_errors ||
-    rm $sfile &> ~/.shell_errors ||
-    echo "This directory is clean!"
+rm $file &> $error || rm $sfile &> $error ||
+    echo 'This directory is clean!'
 
 rm ~/.shell_errors
