@@ -6,5 +6,4 @@ echo $var > ~/.var1
 cat ~/.var1 | tr -d '\n' > ~/.var2
 pbcopy < ~/.var2
 
-cd ~
-rm .var1 .var2
+rm ~/.var[1-2]
