@@ -3,9 +3,8 @@
 var=$1
 
 echo $var > ~/.var1
-
 cat ~/.var1 | tr -d '\n' > ~/.var2
-
 pbcopy < ~/.var2
 
-rm ~/.var[0-9]
+cd ~
+rm .var1 .var2
