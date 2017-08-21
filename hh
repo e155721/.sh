@@ -7,6 +7,6 @@ do
     check=`git remote show origin | grep out`
     if [ -n "$check" ]
     then
-        git pull origin "$branch"
+        git pull
     fi
 done
