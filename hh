@@ -13,5 +13,3 @@ do
         git pull origin "$branch"
     fi
 done
-
-reload
