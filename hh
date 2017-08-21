@@ -4,9 +4,10 @@ dirs=(.sh .zsh .emacs.d)
 for d in $dirs
 do
     cd ~/$d
-    check=`git remote show origin | grep out`
+    branch=`getBranch`
+    check=`git remote show origin | grep $branch | grep out`
     if [ -n "$check" ]
     then
-        git pull
+        git pull origin $branch
     fi
 done
