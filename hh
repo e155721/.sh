@@ -7,7 +7,7 @@ for d in $dirs
 do
     cd ~/$d
     branch=`getBranch`
-    check=`git remote show origin | grep $branch | master out`
+    check=`git remote show origin | grep "$branch" | master out`
     if [ -n "$check" ]
     then
         git pull origin $branch
