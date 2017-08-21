@@ -1,6 +1,8 @@
 #!/bin/zsh
 
+alias getBranch="git branch | grep \* | tr -d '* '"
 dirs=(.sh .zsh .emacs.d)
+
 for d in $dirs
 do
     cd ~/$d
