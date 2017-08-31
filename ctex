@@ -1,33 +1,27 @@
 #!/bin/zsh
 
-texName=$1
-t=$#
-exitSuccessful=0
-
-if [ $t -eq 0 ]
-then
-    texName=(`ls *.tex`)
-    t=${#texName[*]}
-
-    if [ $t -ne 1 ]
+texFiles=(`ls *.tex`)
+for texFile in $texFiles
+do
+    mainTex=`grep \\documentclass $texFile`
+    if [ -n "$mainTex" ]
     then
-        echo "tex file is not one."
-        exit
+        break
     fi
+done
+
+if [ -z "$mainTex" ]
+then
+    exit
 fi
 
-tmp1=`echo $texName | rev`
-tmp2=`echo $tmp1 | sed -e 's/xet//'`
-tmp3=`echo $tmp2 | sed -e 's/\.//'`
-texName=`echo $tmp3 | rev`
+platex $texFile:r.tex > tex.log 2>&1
+exitStatus=$?
+dvipdfmx $texFile:r.dvi >> tex.log 2>&1
 
-platex $texName.tex > tex.log 2>&1
-exit=$?
-dvipdfmx $texName.dvi >> tex.log 2>&1
-
-if [ $exit -eq $exitSuccessful ]
+if [ $exitStatus -eq 0 ]
 then
-    open $texName.pdf
+    open $texFile:r.pdf
 else
     cat tex.log
 fi

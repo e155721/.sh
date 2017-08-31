@@ -1,5 +1,5 @@
 
 #!/bin/sh
 
-lv /usr/local/usr_txt/TeX/sample.txt
+lv /usr/local/usr_txt/TeX/sample.tex
 
