@@ -1,4 +1,3 @@
 #!/bin/sh
 
-rm *aux *dvi *log &> erroe
-rm erroe
+rm -f *aux *dvi *log
