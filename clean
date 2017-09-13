@@ -1,10 +1,5 @@
-#!/bin/sh
+#!/usr/local/src/bin/dash
 
-file='*~'
-sfile='.*~'
-error=~/'.shell_errors'
-
-rm $file &> $error || rm $sfile &> $error ||
-    echo 'This directory is clean!'
-
-rm ~/.shell_errors
+readonly NORMAL_TMP_FILE='*~'
+readonly SECRET_TMP_FILE='.*~'
+rm -f $NORMAL_TMP_FILE $SECRET_TMP_FILE
