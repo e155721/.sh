@@ -1,4 +1,4 @@
-#!/usr/local/src/bin/dash
+#!/bin/sh
 
 readonly NORMAL_TMP_FILE='*~'
 readonly SECRET_TMP_FILE='.*~'
