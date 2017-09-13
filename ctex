@@ -1,27 +1,27 @@
-#!/bin/zsh
+#!/bin/sh
 
-texFiles=(`ls *.tex`)
-for texFile in $texFiles
+readonly ERROR_FILE=.ctex_error
+readonly LOG_FILE=tex.log
+
+for tex_file in `ls *.tex 2>$ERROR_FILE`
 do
-    mainTex=`grep \\documentclass $texFile`
-    if [ -n "$mainTex" ]
-    then
+    main_tex=`grep \\documentclass $tex_file`
+    if [ -n "$main_tex" ]; then
         break
     fi
 done
+rm $ERROR_FILE
 
-if [ -z "$mainTex" ]
-then
+if [ -z "$main_tex" ]; then
     exit
 fi
 
-platex $texFile:r.tex > tex.log 2>&1
+platex ${tex_file%\.*}.tex >$LOG_FILE 2>&1
 exitStatus=$?
-dvipdfmx $texFile:r.dvi >> tex.log 2>&1
+dvipdfmx ${tex_file%\.*}.dvi >>$LOG_FILE 2>&1
 
-if [ $exitStatus -eq 0 ]
-then
-    open $texFile:r.pdf
+if [ $exitStatus -eq 0 ]; then
+    open ${tex_file%\.*}.pdf
 else
-    cat tex.log
+    cat $LOG_FILE
 fi
