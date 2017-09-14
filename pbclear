@@ -1,3 +1,4 @@
 #!/bin/sh
 
-pbvar $clear
+clear=
+pbvar "$clear"
