@@ -1,27 +1,22 @@
 #!/bin/sh
 
-readonly ERROR_FILE=.ctex_error
 readonly LOG_FILE=tex.log
 
-for tex_file in `ls *.tex 2>$ERROR_FILE`
+for tex_file in *.tex
 do
-    main_tex=`grep \\documentclass $tex_file`
+    [ -e "$tex_file" ] || echo TeX file not exist. && exit
+    main_tex="$(grep '\\documentclass' "$tex_file")"
     if [ -n "$main_tex" ]; then
         break
     fi
 done
-rm $ERROR_FILE
 
-if [ -z "$main_tex" ]; then
-    exit
-fi
-
-platex ${tex_file%\.*}.tex >$LOG_FILE 2>&1
+platex "${tex_file%.*}".tex >$LOG_FILE 2>&1
 exitStatus=$?
-dvipdfmx ${tex_file%\.*}.dvi >>$LOG_FILE 2>&1
+dvipdfmx "${tex_file%.*}".dvi >>$LOG_FILE 2>&1
 
 if [ $exitStatus -eq 0 ]; then
-    open ${tex_file%\.*}.pdf
+    open "${tex_file%.*}".pdf
 else
     cat $LOG_FILE
 fi
