@@ -12,10 +12,10 @@ do
 done
 
 platex "${tex_file%.*}".tex >$LOG_FILE 2>&1
-exitStatus=$?
+exit_status=$?
 dvipdfmx "${tex_file%.*}".dvi >>$LOG_FILE 2>&1
 
-if [ $exitStatus -eq 0 ]; then
+if [ $exit_status -eq 0 ]; then
     open "${tex_file%.*}".pdf
 else
     cat $LOG_FILE
