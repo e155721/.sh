@@ -1,10 +1,11 @@
+#!/usr/local/bin/dash
 #!/bin/sh
 
 readonly LOG_FILE=tex.log
 
 for tex_file in *.tex
 do
-    [ -e "$tex_file" ] || echo TeX file not exist. && exit
+    [ -e "$tex_file" ] || exit
     main_tex="$(grep '\\documentclass' "$tex_file")"
     if [ -n "$main_tex" ]; then
         break
