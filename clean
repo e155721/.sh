@@ -1,5 +1,3 @@
 #!/bin/sh
 
-readonly NORMAL_TMP_FILE='*~'
-readonly SECRET_TMP_FILE='.*~'
-rm -f $NORMAL_TMP_FILE $SECRET_TMP_FILE
+rm -fv -- *~ .*~
