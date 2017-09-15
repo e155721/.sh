@@ -1,9 +1,11 @@
 #!/bin/sh
 
+readonly VAR_TMP1=~/.var1
+readonly VAR_TMP2=~/.var2
+
 var=$1
+echo "$var" >"$VAR_TMP1"
+<"$VAR_TMP1" tr -d '\n' >"$VAR_TMP2"
+pbcopy <"$VAR_TMP2"
 
-echo $var > ~/.var1
-cat ~/.var1 | tr -d '\n' > ~/.var2
-pbcopy < ~/.var2
-
-rm ~/.var[1-2]
+rm -f $VAR_TMP1 $VAR_TMP2
