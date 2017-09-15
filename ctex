@@ -1,4 +1,3 @@
-#!/usr/local/bin/dash
 #!/bin/sh
 
 readonly LOG_FILE=tex.log
