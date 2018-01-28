@@ -12,4 +12,7 @@ do
     then
         git pull origin $branch
     fi
+
 done
+
+echo 'Finished!!'
