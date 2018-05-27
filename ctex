@@ -11,12 +11,23 @@ do
     fi
 done
 
-platex "${tex_file%.*}".tex >$LOG_FILE 2>&1
-exit_status=$?
-dvipdfmx "${tex_file%.*}".dvi >>$LOG_FILE 2>&1
+tex_file_name="${tex_file%.*}"
+if [ "$(ls | grep bib)" ]; then
+    platex "$tex_file_name" >$LOG_FILE 2>&1
+    exit_status=$?
+    bibtex "$tex_file_name" >>$LOG_FILE 2>&1
+    platex "$tex_file_name" >>$LOG_FILE 2>&1
+    dvipdfmx "$tex_file_name".dvi
+    #dvipdfmx "$tex_file_name".dvi >>$LOG_FILE 2>&1
+else
+    platex "$tex_file_name".tex >$LOG_FILE 2>&1
+    exit_status=$?
+    dvipdfmx "$tex_file_name".dvi
+    #dvipdfmx "$tex_file_name".dvi >>$LOG_FILE 2>&1
+fi
 
 if [ $exit_status -eq 0 ]; then
-    open "${tex_file%.*}".pdf
+    open "$tex_file_name".pdf
 else
     cat $LOG_FILE
 fi
