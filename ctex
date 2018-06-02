@@ -6,25 +6,18 @@ for tex_file in *.tex
 do
     [ -e "$tex_file" ] || exit
     main_tex="$(grep '\\documentclass' "$tex_file")"
-    if [ -n "$main_tex" ]; then
-        break
-    fi
+    [ -n "$main_tex" ] && break
 done
 
-tex_file_name="${tex_file%.*}"
-if [ "$(ls | grep bib)" ]; then
-    platex "$tex_file_name" >$LOG_FILE 2>&1
-    exit_status=$?
+readonly tex_file_name="${tex_file%.*}"
+
+platex "$tex_file_name" >$LOG_FILE 2>&1
+readonly exit_status=$?
+if [ -e "$(ls | grep bib)" ]; then
     bibtex "$tex_file_name" >>$LOG_FILE 2>&1
     platex "$tex_file_name" >>$LOG_FILE 2>&1
-    dvipdfmx "$tex_file_name".dvi
-    #dvipdfmx "$tex_file_name".dvi >>$LOG_FILE 2>&1
-else
-    platex "$tex_file_name".tex >$LOG_FILE 2>&1
-    exit_status=$?
-    dvipdfmx "$tex_file_name".dvi
-    #dvipdfmx "$tex_file_name".dvi >>$LOG_FILE 2>&1
 fi
+dvipdfmx "$tex_file_name".dvi
 
 if [ $exit_status -eq 0 ]; then
     open "$tex_file_name".pdf
