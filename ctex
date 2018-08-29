@@ -2,13 +2,16 @@
 
 readonly LOG_FILE=tex.log
 
+current_path=1
 e=1
 while [ $e -eq 1 ];
 do
     for tex_file in *.tex
     do
-        [ -e "$tex_file" ] || exit
-        main_tex="$(grep '\\documentclass' "$tex_file")"
+        #[ -e "$tex_file" ] || exit
+        [ -z "$tex_file" -a "$current_path" -eq 1 ] &&  exit
+        current_path=0
+        [ -e "$tex_file" ] && main_tex="$(grep '\\documentclass' "$tex_file")"
 
         if [ -n "$main_tex" ]; then
             e=0
