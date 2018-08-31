@@ -4,16 +4,18 @@ compileTeX ()
 {
     readonly LOG_FILE=tex.log
 
-    while [ 1 ]
-    do
-        [ -e ".tex_root" ] && break
-        cd ..
-    done
+    compile_path=$1
+    cd "$compile_path"
 
     for tex_file in *.tex
     do
         [ -e "$tex_file" ] && main_tex="$(grep '\\documentclass' "$tex_file")"
     done
+
+    if [ -z "$main_tex" ]; then
+        rm -f .tex_root
+        exit
+    fi
 
     readonly tex_file_name="${tex_file%.*}"
 
@@ -35,21 +37,25 @@ compileTeX ()
 }
 
 current_path="$(pwd)"
+compile_path="$(pwd)"
 while [ 1 ]
 do
     [ "$(pwd)" = "/" ] && break
     if [ -e ".tex_root" ]; then
-        compileTeX
+        compileTeX "$compile_path"
+        exit
     else
         cd ..
+        compile_path="$(pwd)"
     fi
 done
 
-cd "$current_path"
-exist_tex_file="$(ls *.tex)"
-if [ -z "exist_tex_file" ]; then
+compile_path="$current_path"
+cd "$compile_path"
+exist_tex_file="$(ls *.tex 2>/dev/zero)"
+if [ -n "$exist_tex_file" ]; then
     touch ".tex_root"
-    compileTeX
+    compileTeX "$compile_path"
 else
     exit
 fi
