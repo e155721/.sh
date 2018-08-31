@@ -6,9 +6,7 @@ compileTeX ()
 
     compile_path=$1
     cd "$compile_path"
-
     tex_file_name="$(<.tex_root)"
-    tex_file_name="${tex_file_name%.*}"
 
     platex "$tex_file_name" >$LOG_FILE 2>&1
     readonly exit_status=$?
@@ -63,7 +61,7 @@ compile_path="$current_path"
 cd "$compile_path"
 main_tex="$(getMainTex)"
 if [ -n "$main_tex" ]; then
-    echo "$main_tex" >.tex_root
+    echo "${main_tex%.*}" >.tex_root
     compileTeX "$compile_path"
 else
     exit
