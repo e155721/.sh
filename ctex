@@ -7,17 +7,8 @@ compileTeX ()
     compile_path=$1
     cd "$compile_path"
 
-    for tex_file in *.tex
-    do
-        [ -e "$tex_file" ] && main_tex="$(grep '\\documentclass' "$tex_file")"
-    done
-
-    if [ -z "$main_tex" ]; then
-        rm -f .tex_root
-        exit
-    fi
-
-    readonly tex_file_name="${tex_file%.*}"
+    tex_file_name="$(<.tex_root)"
+    tex_file_name="${tex_file_name%.*}"
 
     platex "$tex_file_name" >$LOG_FILE 2>&1
     readonly exit_status=$?
@@ -36,6 +27,24 @@ compileTeX ()
     fi
 }
 
+getMainTex ()
+{
+    exist_tex_file="$(ls *.tex 2>/dev/zero)"
+    [ -z "$exist_tex_file" ] && exit
+
+    for tex_file in *.tex
+    do
+        if [ -e "$tex_file" ]; then
+            main_tex="$(grep '\\documentclass' "$tex_file")"
+            [ -n "$main_tex" ] && echo "$tex_file"; break
+        else
+            exit
+        fi
+    done
+
+    echo ""
+}
+
 current_path="$(pwd)"
 compile_path="$(pwd)"
 while [ 1 ]
@@ -52,9 +61,9 @@ done
 
 compile_path="$current_path"
 cd "$compile_path"
-exist_tex_file="$(ls *.tex 2>/dev/zero)"
-if [ -n "$exist_tex_file" ]; then
-    touch ".tex_root"
+main_tex="$(getMainTex)"
+if [ -n "$main_tex" ]; then
+    echo "$main_tex" >.tex_root
     compileTeX "$compile_path"
 else
     exit
