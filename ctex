@@ -45,6 +45,7 @@ getMainTex ()
 
 current_path="$(pwd)"
 compile_path="$(pwd)"
+
 while [ 1 ]
 do
     [ "$(pwd)" = "/" ] && break
@@ -60,6 +61,7 @@ done
 compile_path="$current_path"
 cd "$compile_path"
 main_tex="$(getMainTex)"
+
 if [ -n "$main_tex" ]; then
     echo "${main_tex%.*}" >.tex_root
     compileTeX "$compile_path"
