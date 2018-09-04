@@ -10,8 +10,6 @@ compileTeX ()
     readonly exit_status=$?
     if [ -e "$(ls | grep bib)" ]; then
         bibtex "$tex_file_name" >>$LOG_FILE 2>&1
-        # The "LaTeX Font Warning: Font shape" happen
-        # after ">>$LOG_FILE 2>&1" of this line will be comment out
         platex "$tex_file_name" >>$LOG_FILE 2>&1
     fi
     dvipdfmx "$tex_file_name".dvi
