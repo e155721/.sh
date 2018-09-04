@@ -4,9 +4,7 @@ compileTeX ()
 {
     readonly LOG_FILE=tex.log
 
-    compile_path=$1
-    cd "$compile_path"
-    tex_file_name="$(<.tex_root)"
+    tex_file_name=$1
 
     platex "$tex_file_name" >$LOG_FILE 2>&1
     readonly exit_status=$?
@@ -43,28 +41,14 @@ getMainTex ()
     echo ""
 }
 
-current_path="$(pwd)"
-compile_path="$(pwd)"
-
+[ -z "$(ls | grep tex)" ] && exit
 while [ 1 ]
 do
-    [ "$(pwd)" = "/" ] && break
-    if [ -e ".tex_root" ]; then
-        compileTeX "$compile_path"
+    compile_file="$(getMainTex)"
+    if [ -n "$compile_file" ]; then
+        compileTeX "${compile_file%.*}"
         exit
     else
         cd ..
-        compile_path="$(pwd)"
     fi
 done
-
-compile_path="$current_path"
-cd "$compile_path"
-main_tex="$(getMainTex)"
-
-if [ -n "$main_tex" ]; then
-    echo "${main_tex%.*}" >.tex_root
-    compileTeX "$compile_path"
-else
-    exit
-fi
