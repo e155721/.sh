@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+cd $HOME
 alias getBranch="git branch | grep \* | tr -d '* '"
 dirs=(.sh .zsh.d .emacs.d)
 
