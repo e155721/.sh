@@ -23,9 +23,6 @@ compileTeX ()
 
 getMainTex ()
 {
-    exist_tex_file="$(ls *.tex 2>/dev/zero)"
-    [ -z "$exist_tex_file" ] && exit
-
     for tex_file in *.tex
     do
         if [ -e "$tex_file" ]; then
@@ -42,6 +39,9 @@ getMainTex ()
 [ -z "$(ls | grep tex)" ] && exit
 while [ 1 ]
 do
+    current="$(pwd)"
+    [ "$current" = "/" ] && exit
+
     compile_file="$(getMainTex)"
     if [ -n "$compile_file" ]; then
         compileTeX "${compile_file%.*}"
