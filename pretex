@@ -7,4 +7,4 @@ SAMPLE_PATH=/Users/e155721/OkazakiLab/Documents/TeX_Sample
 new_file=$1
 
 cp "$SAMPLE_PATH"/ms.sty .
-cp "$SAMPLE_PATH"/sample_custom.tex "$new_file"
+cp "$SAMPLE_PATH"/sample_custom.tex "$new_file".tex
