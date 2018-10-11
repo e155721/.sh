@@ -5,6 +5,7 @@ TEX=sample_custom.tex
 SAMPLE_PATH=/Users/e155721/OkazakiLab/Documents/TeX_Sample
 
 new_file=$1
+[ -z "$new_file" ] && new_file=sample_tex
 
 cp "$SAMPLE_PATH"/ms.sty .
 cp "$SAMPLE_PATH"/sample_custom.tex "$new_file".tex
