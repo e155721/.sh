@@ -27,9 +27,10 @@ getMainTex ()
     do
         if [ -e "$tex_file" ]; then
             main_tex="$(grep '\\documentclass' "$tex_file")"
-            [ -n "$main_tex" ] && echo "$tex_file"; break
-        else
-            exit
+            if [ -n "$main_tex" ]; then
+                echo "$tex_file"
+                break
+            fi
         fi
     done
 
