@@ -5,12 +5,16 @@ compileTeX ()
     readonly LOG_FILE=tex.log
 
     tex_file_name=$1
+    tex_type=$2
+    if [ -z "$tex_type" ]; then
+        tex_type="platex"
+    fi
 
-    platex "$tex_file_name" >$LOG_FILE 2>&1
+    "$tex_type" "$tex_file_name" >$LOG_FILE 2>&1
     readonly exit_status=$?
     if [ -e "$(ls | grep bib)" ]; then
         bibtex "$tex_file_name" >>$LOG_FILE 2>&1
-        platex "$tex_file_name" >>$LOG_FILE 2>&1
+        "$tex_type" "$tex_file_name" >>$LOG_FILE 2>&1
     fi
     dvipdfmx "$tex_file_name".dvi
 
@@ -37,6 +41,7 @@ getMainTex ()
     echo ""
 }
 
+tex_type=$1
 [ -z "$(ls | grep tex)" ] && exit
 while [ 1 ]
 do
@@ -45,7 +50,7 @@ do
 
     compile_file="$(getMainTex)"
     if [ -n "$compile_file" ]; then
-        compileTeX "${compile_file%.*}"
+        compileTeX "${compile_file%.*}" "$tex_type"
         exit
     else
         cd ..
