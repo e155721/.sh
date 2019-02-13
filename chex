@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+before=$1
+after=$2
+
+for f in *."$before"
+do
+    mv "$f" "$f:r"."$after"
+done
