@@ -5,5 +5,11 @@ after=$2
 
 for f in *."$before"
 do
-    mv "$f" "$f:r"."$after"
+
+    if [ -n "$after" ]; then
+        mv "$f" "$f:r"."$after"
+    else
+        mv "$f" "$f:r"
+    fi
+
 done
