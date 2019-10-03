@@ -2,7 +2,7 @@
 
 STY=ms.sty
 TEX=sample_custom.tex
-SAMPLE_PATH=/Users/e155721/OkazakiLab/Documents/TeX_Sample
+SAMPLE_PATH=$HOME/.tex/TeX_Sample
 
 new_file=$1
 [ -z "$new_file" ] && new_file=sample_tex
