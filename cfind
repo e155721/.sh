@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+ext=$1
+word=$2
+
+files=($(find ./ -name "$ext"))
+for f in $files
+do
+  len=$(<$f grep "$word")
+  if [ -n "$len" ]; then
+    echo ""
+    echo $f
+    #cat $f
+  fi
+done
