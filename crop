@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+for f in *.pdf
+do
+    pdfcrop $f $f
+done
